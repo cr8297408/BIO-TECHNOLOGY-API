@@ -1,8 +1,10 @@
+import db from './../../config/connection/connectBD';
 import * as bcrypt from 'bcrypt';
 import * as connections from '@/config/connection/connection';
 import * as crypto from 'crypto';
 import { Document, Schema } from 'mongoose';
 import { NextFunction } from 'express';
+import { DataTypes } from 'sequelize';
 
 /**
  * @export
@@ -72,6 +74,50 @@ export type AuthToken = {
  *      items:
  *        $ref: '#/components/schemas/UserSchema'
  */
+
+// mysql model sequelize
+
+export const Usuario = db.define('Usuario',
+    {
+        id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        pass: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        passwordResetToken: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        passwordResetExpires: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+        token: {
+            type: DataTypes.STRING,
+        },
+    }
+);
+
+
+// export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+//     id_user: CreationOptional<number>;
+//     email: string;
+//     password: string;
+//     passwordResetToken: string;
+//     passwordResetExpires: Date;
+//     tokens: Array<string>;
+// }
+
+
+// mongodb
 const UserSchema: Schema = new Schema(
     {
         email: {
