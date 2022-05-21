@@ -77,7 +77,7 @@ export type AuthToken = {
 
 // mysql model sequelize
 
-export const Usuario = db.define('Usuario',
+export const User = db.define('User',
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,

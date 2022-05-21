@@ -1,8 +1,0 @@
-CREATE TABLE usuarios(
-id INTEGER AUTO_INCREMENT PRIMARY KEY,
-email VARCHAR(50) NOT NULL,
-pass VARCHAR(200) NOT NULL,
-passwordResetToken VARCHAR(200) NOT NULL,
-passwordResetExpires DATE NOT NULL,
-token VARCHAR(200)
-);
