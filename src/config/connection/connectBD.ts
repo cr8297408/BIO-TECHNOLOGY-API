@@ -1,14 +1,11 @@
-import { Sequelize } from 'sequelize-typescript';
+import { Sequelize } from 'sequelize';
 import config from '@/config/env/index';
-import {User} from '../../components/user.model';
 
-const sequelize = new Sequelize({
-    database: config.database.DB_NAME,
-    username: config.database.DB_USER,
-    password: config.database.DB_PASS,
-    host: config.database.DB_HOST,
+const data = config.database;
+
+const db = new Sequelize(data.DB_NAME, data.DB_USER, data.DB_PASS, {
+    host: data.DB_HOST,
     dialect: 'mysql',
-    models: [User],
 });
 
-export default sequelize;
+export default db;
