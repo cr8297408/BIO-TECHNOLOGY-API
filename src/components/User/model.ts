@@ -84,7 +84,7 @@ export const Usuario = db.define('Usuario',
             autoIncrement: true,
             primaryKey: true,
         },
-        email: {
+        email: { 
             type: DataTypes.STRING,
             allowNull: false,
         },
