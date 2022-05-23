@@ -21,7 +21,7 @@ interface RequestWithUser extends Request {
 export async function signup(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         await AuthService.createUser(req.body);
-
+        
         res.status(HttpStatus.OK)
             .send({
                 message: 'You have signed up successfully',
@@ -79,7 +79,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
  */
 export async function user(req: RequestWithUser, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: IUserModel = await UserService.findOne(req.user.id);
+        const user: IUserModel = await UserService.findOne(req.params.id);
 
         res.status(HttpStatus.OK)
             .send({ user });

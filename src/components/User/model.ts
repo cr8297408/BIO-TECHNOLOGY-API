@@ -1,14 +1,12 @@
-import * as bcrypt from 'bcrypt';
-import * as connections from '@/config/connection/connection';
-import * as crypto from 'crypto';
-import { Document, Schema } from 'mongoose';
-import { NextFunction } from 'express';
+'use strict';
+
+import { Model, UUIDV4  } from 'sequelize';
 
 /**
  * @export
  * @interface IUserRequest
  */
-export interface IUserRequest {
+ export interface IUserRequest {
     id: string;
     email: string;
 }
@@ -18,126 +16,89 @@ export interface IUserRequest {
  * @interface IUserModel
  * @extends {Document}
  */
-export interface IUserModel extends Document {
-    email: string;
-    password: string;
-    passwordResetToken: string;
-    passwordResetExpires: Date;
-
-    facebook: string;
-    tokens: AuthToken[];
-
-    profile: {
-        name: string;
-        gender: string;
-        location: string;
-        website: string;
-        picture: string;
-    };
-    comparePassword: (password: string) => Promise<boolean>;
-    gravatar: (size: number) => string;
-}
 
 export type AuthToken = {
     accessToken: string;
     kind: string;
 };
 
-/**
- * @swagger
- * components:
- *  schemas:
- *    UserSchema:
- *      required:
- *        - email
- *        - name
- *      properties:
- *        id:
- *          type: string
- *        name:
- *          type: string
- *        email:
- *          type: string
- *        password:
- *          type: string
- *        passwordResetToken:
- *          type: string
- *        passwordResetExpires:
- *          type: string
- *          format: date
- *        tokens:
- *          type: array
- *    Users:
- *      type: array
- *      items:
- *        $ref: '#/components/schemas/UserSchema'
- */
 
-// mongodb
-const UserSchema: Schema = new Schema(
-    {
-        email: {
-            type: String,
-            unique: true,
-            trim: true,
-        },
-        password: String,
-        passwordResetToken: String,
-        passwordResetExpires: Date,
-        tokens: Array,
+export interface IUserModel {
+    id: string;
+    email: string;
+    name: string;
+    password: string;
+    passwordResetToken?: string;
+    passwordResetExpires?: Date;
+    facebook?: string;
+    token?: string;
+    isActive?: boolean;
+}
+
+
+
+const UserModel = (sequelize: any, DataTypes: any) => {
+  class User extends Model<IUserModel> 
+  implements IUserModel {
+    /**IUserModel
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    id!: string;
+    name!: string;
+    email!: string;
+    password!: string;
+    passwordResetToken?: string;
+    passwordResetExpires?: Date;
+
+    facebook?: string;
+    token?: string;
+    isActive?: boolean;
+    
+  };
+  User.init({
+    id: {
+      type: DataTypes.STRING,
+      defaultValue: UUIDV4,
+      allowNull: false,
+      primaryKey: true
     },
-    {
-        collection: 'users',
-        versionKey: false,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    }, 
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    passwordResetToken: {
+        type: DataTypes.STRING,
+    },
+    passwordResetExpires: {
+        type: DataTypes.DATE,
+    },
+    token: {
+        type: DataTypes.STRING,
+    },
+    facebook: {
+        type: DataTypes.STRING,
+    },
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
     }
-).pre('save', async function (next: NextFunction): Promise<void> {
-    const user: any = this; // tslint:disable-line
 
-    if (!user.isModified('password')) {
-        return next();
-    }
-
-    try {
-        const salt: string = await bcrypt.genSalt(10);
-
-        const hash: string = await bcrypt.hash(user.password, salt);
-
-        user.password = hash;
-        next();
-    } catch (error) {
-        return next(error);
-    }
-});
-
-/**
- * Method for comparing passwords
- */
-UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-    try {
-        const match: boolean = await bcrypt.compare(candidatePassword, this.password);
-
-        return match;
-    } catch (error) {
-        return error;
-    }
+  }, {
+    sequelize,
+    tableName: 'users',
+  });
+  return User;
 };
 
-/**
- * Helper method for getting user's gravatar.
- */
-UserSchema.methods.gravatar = function (size: number): string {
-    if (!size) {
-        size = 200;
-    }
-    if (!this.email) {
-        return `https://gravatar.com/avatar/?s=${size}&d=retro`;
-    }
-    const md5: string = crypto
-        .createHash('md5')
-        .update(this.email)
-        .digest('hex');
-
-    return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
-};
-
-export default connections.db.model<IUserModel>('UserModel', UserSchema);
+export default UserModel;

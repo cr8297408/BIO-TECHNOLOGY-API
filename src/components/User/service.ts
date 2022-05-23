@@ -1,8 +1,9 @@
+import db  from '../../config/connection/connectBD';
+import { DataTypes } from 'sequelize';
 import * as Joi from '@hapi/joi';
 import UserModel, { IUserModel } from './model';
 import UserValidation from './validation';
-import { IUserService } from './interface';
-import { Types } from 'mongoose';
+import { IUserService } from './interfaces';
 
 
 /**
@@ -16,7 +17,8 @@ const UserService: IUserService = {
      */
     async findAll(): Promise<IUserModel[]> {
         try {
-            return await UserModel.find({});
+            const users: IUserModel[] = await UserModel(db, DataTypes).findAll();
+            return users;
         } catch (error) {
             throw new Error(error.message);
         }
@@ -29,24 +31,13 @@ const UserService: IUserService = {
      */
     async findOne(id: string): Promise<IUserModel> {
         try {
-            const validate: Joi.ValidationResult<{
-                id: string;
-            }> = UserValidation.getUser({
-                id,
-            });
+            const user: IUserModel = await UserModel(db, DataTypes).findByPk(id);
 
-            if (validate.error) {
-                throw new Error(validate.error.message);
+            if (!user) {
+                throw new Error('user dot not exist');
             }
 
-            return await UserModel.findOne(
-                {
-                    _id: Types.ObjectId(id),
-                },
-                {
-                    password: 0,
-                }
-            );
+            return user;
         } catch (error) {
             throw new Error(error.message);
         }
@@ -59,13 +50,15 @@ const UserService: IUserService = {
      */
     async insert(body: IUserModel): Promise<IUserModel> {
         try {
+
+
             const validate: Joi.ValidationResult<IUserModel> = UserValidation.createUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
             }
 
-            const user: IUserModel = await UserModel.create(body);
+            const user: IUserModel = await UserModel(db, DataTypes).create(body)
 
             return user;
         } catch (error) {
@@ -90,11 +83,18 @@ const UserService: IUserService = {
                 throw new Error(validate.error.message);
             }
 
-            const user: IUserModel = await UserModel.findOneAndRemove({
-                _id: Types.ObjectId(id),
+            await db.query('UPDATE users SET isActive=false WHERE id = ?', {
+                replacements: [id],
             });
+            
+            const user = await UserModel(db, DataTypes).findByPk(id);
+            // await user.update({
+            //     isActive: false,
+            // })
+            
+            return user
 
-            return user;
+        
         } catch (error) {
             throw new Error(error.message);
         }

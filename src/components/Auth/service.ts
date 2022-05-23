@@ -1,7 +1,11 @@
+import db from '../../config/connection/connectBD';
+import { DataTypes, QueryTypes } from 'sequelize';
 import * as Joi from '@hapi/joi';
 import AuthValidation from './validation';
 import UserModel, { IUserModel } from '@/components/User/model';
 import { IAuthService } from './interface';
+import comparePassword from '../../config/middleware/user.middleware';
+
 
 /**
  * @export
@@ -21,22 +25,19 @@ const AuthService: IAuthService = {
                 throw new Error(validate.error.message);
             }
 
-            const user: IUserModel = new UserModel({
-                email: body.email,
-                password: body.password,
+            
+            const query = await db.query('SELECT * FROM users WHERE email= ? ', {
+                replacements: [body.email],
+                type: QueryTypes.SELECT,
             });
-
-            const query: IUserModel = await UserModel.findOne({
-                email: body.email,
-            });
-
-            if (query) {
+            
+            if (query.length!=0) {
                 throw new Error('This email already exists');
             }
+            
+            const user: IUserModel = await UserModel(db, DataTypes).create(body);
 
-            const saved: IUserModel = await user.save();
-
-            return saved;
+            return user;
         } catch (error) {
             throw new Error(error);
         }
@@ -46,7 +47,7 @@ const AuthService: IAuthService = {
      * @returns {Promise <IUserModel>}
      * @memberof AuthService
      */
-    async getUser(body: IUserModel): Promise<IUserModel> {
+    async getUser(body: IUserModel): Promise<any> {
         try {
             const validate: Joi.ValidationResult<IUserModel> = AuthValidation.getUser(body);
 
@@ -54,11 +55,11 @@ const AuthService: IAuthService = {
                 throw new Error(validate.error.message);
             }
 
-            const user: IUserModel = await UserModel.findOne({
-                email: body.email,
+            const user = await db.query('SELECT * FROM users WHERE email= ? ', {
+                replacements: [body.email]
             });
 
-            const isMatched: boolean = user && (await user.comparePassword(body.password));
+            const isMatched: boolean = user && (await comparePassword(body));
 
             if (isMatched) {
                 return user;

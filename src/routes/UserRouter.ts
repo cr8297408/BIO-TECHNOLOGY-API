@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { UserComponent, UserComponent2 } from '@/components';
+import { UserComponent } from '@/components';
 
 /**
  * @constant {express.Router}
@@ -8,7 +8,7 @@ const router: Router = Router();
 
 /**
  * GET method route
- * @example http://localhost:PORT/v1/users
+ * @example http://localhost:PORT/v2/users
  *
  * @swagger
  * /v1/users:
@@ -32,14 +32,13 @@ const router: Router = Router();
  *              schema:
  *                $ref: '#/components/schemas/Error'
  */
-router.get('/', UserComponent.findAll);
  
-router.get('/users', UserComponent2.findAll); // ruta prueba con mysql
+router.get('/', UserComponent.findAll); // ruta prueba con mysql
 
 
 /**
  * POST method route
- * @example http://localhost:PORT/v1/users
+ * @example http://localhost:PORT/v2/users
  *
  * @swagger
  * /v1/users:
@@ -73,13 +72,12 @@ router.get('/users', UserComponent2.findAll); // ruta prueba con mysql
  *              schema:
  *                $ref: '#/components/schemas/Error'
  */
-router.post('/', UserComponent.create);
 
-router.post('/users', UserComponent2.create); // ruta prueba con mysql
+router.post('/', UserComponent.create); // ruta prueba con mysql
 
 /**
  * GET method route
- * @example http://localhost:PORT/v1/users/:id
+ * @example http://localhost:PORT/v2/users/:id
  *
  * @swagger
  * /v1/users/{id}:
@@ -104,13 +102,12 @@ router.post('/users', UserComponent2.create); // ruta prueba con mysql
  *              oneOf:
  *                - $ref: '#/components/schemas/UserSchema'
  */
-router.get('/:id', UserComponent.findOne);
 
-router.get('/users/:id', UserComponent2.findOne); // ruta prueba con mysql
+router.get('/:id', UserComponent.findOne); // ruta prueba con mysql
 
 /**
  * DELETE method route
- * @example  http://localhost:PORT/v1/users/:id
+ * @example  http://localhost:PORT/v2/users/:id
  *
  * @swagger
  * /v1/users/{id}:
@@ -135,9 +132,8 @@ router.get('/users/:id', UserComponent2.findOne); // ruta prueba con mysql
  *              oneOf:
  *                - $ref: '#/components/schemas/UserSchema'
  */
-router.delete('/:id', UserComponent.remove);
 
-router.delete('/users/:id', UserComponent2.remove); // ruta prueba con mysql
+router.delete('/:id', UserComponent.remove); // ruta prueba con mysql
 
 /**
  * @export {express.Router}

@@ -1,5 +1,4 @@
-import * as AuthComponent from './Auth';
 import * as UserComponent from './User';
-import * as UserComponent2 from './User2';
+import * as AuthComponent from './Auth';
 
-export { AuthComponent, UserComponent, UserComponent2 };
+export {UserComponent, AuthComponent };

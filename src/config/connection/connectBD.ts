@@ -12,14 +12,7 @@ const db = new Sequelize(data.DB_NAME, data.DB_USER, data.DB_PASS, {
 (async () => {
 
     await db.sync();
-
-    // const userTest = UserModel(db, DataTypes).create({
-    //     name: 'testAPI',
-    //     email: 'testApi@test.com',
-    //     password: 'test',
-    // })
-
-    // console.log(userTest);
 })();
+
 
 export default db;

@@ -16,5 +16,5 @@ export interface IAuthService {
      * @returns {Promise<IUserModel>}
      * @memberof AuthService
      */
-    getUser(IUserModel: IUserModel): Promise<IUserModel>;
+    getUser(IUserModel: IUserModel): Promise<any>;
 }

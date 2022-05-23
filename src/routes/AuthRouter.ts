@@ -39,7 +39,9 @@ const router: Router = Router();
  *            example:
  *              message: Email already exists
  */
+
 router.post('/signup', AuthComponent.signup);
+
 
 /**
  * POST method route
@@ -79,19 +81,28 @@ router.post('/signup', AuthComponent.signup);
  *            example:
  *              message: Invalid credentials
  */
+
 router.post('/login', AuthComponent.login);
+
 
 /**
  * GET method route
- * @example http://localhost:PORT/user
+ * @example http://localhost:PORT/user/:id
  *
  * @swagger
- * /auth/user/:
+ * /auth/user/{id}:
  *  get:
  *    description: Get authenticated user
  *    tags: ["auth"]
  *    security:
  *      - bearerAuth: []
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: the unique userId
+ *        required: true
+ *        schema:
+ *          type: string
  *    responses:
  *      200:
  *        description: return authenticated user
@@ -107,7 +118,9 @@ router.post('/login', AuthComponent.login);
  *            schema:
  *              $ref: '#/components/schemas/Error'
  */
-router.get('/user', jwtConfig.isAuthenticated, AuthComponent.user);
+
+router.get('/user/:id', jwtConfig.isAuthenticated, AuthComponent.user);
+
 
 /**
  * @export {express.Router}

@@ -34,7 +34,7 @@ export function init(app: express.Application): void {
      *  Also, check if user authenticated
      * @constructs
      */
-    app.use('/v1/users', jwtConfig.isAuthenticated, UserRouter);
+    app.use('/v2/users', jwtConfig.isAuthenticated, UserRouter);
 
     /**
      * @description Forwards any requests to the /auth URI to our AuthRouter

@@ -1,5 +1,5 @@
 import * as Joi from '@hapi/joi';
-import Validation from '@/components/validation';
+// import Validation from '@/components/validation';
 import { IUserModel } from './model';
 
 /**
@@ -7,14 +7,11 @@ import { IUserModel } from './model';
  * @class UserValidation
  * @extends Validation
  */
-class UserValidation extends Validation {
+class UserValidation /**extends Validation**/ {
     /**
      * Creates an instance of UserValidation.
      * @memberof UserValidation
      */
-    constructor() {
-        super();
-    }
 
     /**
      * @param {IUserModel} params
@@ -29,6 +26,7 @@ class UserValidation extends Validation {
                     minDomainSegments: 2,
                 })
                 .required(),
+            password: Joi.string().required()
         });
 
         return schema.validate(params);
@@ -45,7 +43,7 @@ class UserValidation extends Validation {
         id: string;
     }> {
         const schema: Joi.ObjectSchema = Joi.object().keys({
-            id: this.customJoi.objectId().required(),
+            id: Joi.string().required(),
         });
 
         return schema.validate(body);
@@ -62,7 +60,8 @@ class UserValidation extends Validation {
         id: string;
     }> {
         const schema: Joi.ObjectSchema = Joi.object().keys({
-            id: this.customJoi.objectId().required(),
+            id: Joi.string().required(),
+                     // esto hay que validarlo bien mas adelante
         });
 
         return schema.validate(body);
