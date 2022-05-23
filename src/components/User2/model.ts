@@ -1,6 +1,6 @@
 'use strict';
 
-import { Model } from 'sequelize';
+import { Model, UUIDV4  } from 'sequelize';
 
 /**
  * @export
@@ -60,6 +60,7 @@ const UserModel = (sequelize: any, DataTypes: any) => {
   User.init({
     id: {
       type: DataTypes.STRING,
+      defaultValue: UUIDV4,
       allowNull: false,
       primaryKey: true
     },

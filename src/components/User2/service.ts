@@ -83,8 +83,11 @@ const UserService: IUserService = {
                 throw new Error(validate.error.message);
             }
 
+            await db.query('UPDATE users SET isActive=false WHERE id = ?', {
+                replacements: [id],
+            });
+            
             const user = await UserModel(db, DataTypes).findByPk(id);
-
             // await user.update({
             //     isActive: false,
             // })
