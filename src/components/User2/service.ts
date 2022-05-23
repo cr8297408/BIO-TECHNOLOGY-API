@@ -85,9 +85,9 @@ const UserService: IUserService = {
 
             const user = await UserModel(db, DataTypes).findByPk(id);
 
-            await user.update({
-                isActive: false,
-            })
+            // await user.update({
+            //     isActive: false,
+            // })
             
             return user
 
