@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "@hapi/joi": "^16.1.7",
+    "@types/mysql": "^2.15.21",
     "@types/sequelize": "^4.28.13",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",

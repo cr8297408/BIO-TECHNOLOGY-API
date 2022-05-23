@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { UserComponent } from '@/components';
+import { UserComponent, UserComponent2 } from '@/components';
 
 /**
  * @constant {express.Router}
@@ -33,6 +33,9 @@ const router: Router = Router();
  *                $ref: '#/components/schemas/Error'
  */
 router.get('/', UserComponent.findAll);
+ 
+router.get('/users', UserComponent2.findAll); // ruta prueba con mysql
+
 
 /**
  * POST method route
@@ -72,6 +75,8 @@ router.get('/', UserComponent.findAll);
  */
 router.post('/', UserComponent.create);
 
+router.post('/users', UserComponent2.create); // ruta prueba con mysql
+
 /**
  * GET method route
  * @example http://localhost:PORT/v1/users/:id
@@ -101,6 +106,8 @@ router.post('/', UserComponent.create);
  */
 router.get('/:id', UserComponent.findOne);
 
+router.get('/users/:id', UserComponent2.findOne); // ruta prueba con mysql
+
 /**
  * DELETE method route
  * @example  http://localhost:PORT/v1/users/:id
@@ -129,6 +136,8 @@ router.get('/:id', UserComponent.findOne);
  *                - $ref: '#/components/schemas/UserSchema'
  */
 router.delete('/:id', UserComponent.remove);
+
+router.delete('/users/:id', UserComponent2.remove); // ruta prueba con mysql
 
 /**
  * @export {express.Router}
