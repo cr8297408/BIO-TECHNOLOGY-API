@@ -45,7 +45,6 @@ const UserService: IUserService = {
                 limit: size,
                 offset: size * page,
             })
-            console.log(size, page);
             
             return users
         } catch (error) {
