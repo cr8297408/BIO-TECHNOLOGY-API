@@ -20,6 +20,19 @@ export async function findAll(req: Request, res: Response, next: NextFunction): 
     }
 }
 
+
+export async function findPagination(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const sizeAsNumber = Number.parseInt(req.query.size);
+        const pageAsNumber = Number.parseInt(req.query.page);
+        const users: IUserModel[] = await UserService.findPagination(sizeAsNumber, pageAsNumber);
+
+        res.json(users)
+    } catch (error) {
+        next (new HttpError(error.message.status,error.message))
+    }
+}
+
 /**
  * @export
  * @param {Request} req

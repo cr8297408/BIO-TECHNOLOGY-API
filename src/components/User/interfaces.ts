@@ -12,6 +12,12 @@ export interface IUserService {
     findAll(): Promise<IUserModel[]>;
 
     /**
+     * @returns {Promise<IUserModel[]>}
+     * @memberof IUserService
+     */
+    findPagination(size: number, page: number): Promise<IUserModel[]>;
+
+    /**
      * @param {string} code
      * @returns {Promise<IUserModel>}
      * @memberof IUserService

@@ -25,6 +25,35 @@ const UserService: IUserService = {
     },
 
     /**
+     * @returns {Promise < IUserModel[] >}
+     * @memberof UserService
+     */
+    async findPagination(sizeAsNumber: number, pageAsNumber: number): Promise<IUserModel[]> {
+        try {
+
+            let page = 0;
+            if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0 ) {
+                page = pageAsNumber - 1;
+            }
+
+            let size = 0;
+            if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 10) {
+                size = sizeAsNumber;
+            }
+
+            const users: IUserModel[] = await UserModel(db, DataTypes).findAll({
+                limit: size,
+                offset: size * page,
+            })
+            console.log(size, page);
+            
+            return users
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    /**
      * @param {string} id
      * @returns {Promise < IUserModel >}
      * @memberof UserService

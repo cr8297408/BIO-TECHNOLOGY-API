@@ -11,7 +11,7 @@ const router: Router = Router();
  * @example http://localhost:PORT/v2/users
  *
  * @swagger
- * /v1/users:
+ * /v2/users:
  *   get:
  *     description: Get all stored users in Database
  *     tags: ["users"]
@@ -33,8 +33,36 @@ const router: Router = Router();
  *                $ref: '#/components/schemas/Error'
  */
  
-router.get('/', UserComponent.findAll); // ruta prueba con mysql
+router.get('/', UserComponent.findAll);
 
+/**
+ * GET method route
+ * @example http://localhost:PORT/v2/users/pagination?page=1?size=2
+ *
+ * @swagger
+ * /v2/users/pagination?page?size:
+ *   get:
+ *     description: Get all stored users in Database
+ *     tags: ["users"]
+ *     security:
+ *      - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: An array of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                - $ref: '#/components/schemas/Users'
+ *       default:
+ *          description: unexpected error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Error'
+ */
+ 
+router.get('/pagination', UserComponent.findPagination);
 
 /**
  * POST method route
