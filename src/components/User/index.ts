@@ -1,6 +1,6 @@
 import UserService from './service';
 import { HttpError } from '@/config/error';
-import { IUserModel } from './model';
+import { IUserModel } from './interfaces';
 import { NextFunction, Request, Response } from 'express';
 
 /**

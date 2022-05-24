@@ -2,10 +2,10 @@ import db from '../../config/connection/connectBD';
 import { DataTypes, QueryTypes } from 'sequelize';
 import * as Joi from '@hapi/joi';
 import AuthValidation from './validation';
-import UserModel, { IUserModel } from '@/components/User/model';
+import UserModel from '@/components/User/model';
 import { IAuthService } from './interface';
 import comparePassword from '../../config/middleware/user.middleware';
-
+import { IUserModel } from '../User/interfaces';
 
 /**
  * @export

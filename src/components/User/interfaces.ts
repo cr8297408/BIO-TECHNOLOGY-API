@@ -1,9 +1,36 @@
-import { IUserModel } from './model';
+/**
+ * @export
+ * @interface IUserModel
+ * @extends {Document}
+ */
+
+ export interface IUserModel {
+    id: string;
+    email: string;
+    name: string;
+    password: string;
+    passwordResetToken?: string;
+    passwordResetExpires?: Date;
+    facebook?: string;
+    token?: string;
+    isActive?: boolean;
+}
+
+/**
+ * @export
+ * @interface IUserRequest
+ */
+ export interface IUserRequest {
+    id: string;
+    email: string;
+}
 
 /**
  * @export
  * @interface IUserService
  */
+
+
 export interface IUserService {
     /**
      * @returns {Promise<IUserModel[]>}

@@ -1,39 +1,14 @@
 'use strict';
+import { IUserModel } from './interfaces';
 
 import { Model, UUIDV4  } from 'sequelize';
 
-/**
- * @export
- * @interface IUserRequest
- */
- export interface IUserRequest {
-    id: string;
-    email: string;
-}
 
-/**
- * @export
- * @interface IUserModel
- * @extends {Document}
- */
 
 export type AuthToken = {
     accessToken: string;
     kind: string;
 };
-
-
-export interface IUserModel {
-    id: string;
-    email: string;
-    name: string;
-    password: string;
-    passwordResetToken?: string;
-    passwordResetExpires?: Date;
-    facebook?: string;
-    token?: string;
-    isActive?: boolean;
-}
 
 
 

@@ -1,9 +1,9 @@
 import db  from '../../config/connection/connectBD';
 import { DataTypes } from 'sequelize';
 import * as Joi from '@hapi/joi';
-import UserModel, { IUserModel } from './model';
+import UserModel from './model';
 import UserValidation from './validation';
-import { IUserService } from './interfaces';
+import { IUserService, IUserModel } from './interfaces';
 
 
 /**

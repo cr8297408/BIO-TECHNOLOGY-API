@@ -1,5 +1,5 @@
 import db from '../connection/connectBD';
-import { IUserModel } from '@/components/User/model';
+import { IUserModel } from '@/components/User/interfaces';
 
 import * as bcrypt from 'bcrypt';
 
