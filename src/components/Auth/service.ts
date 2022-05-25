@@ -26,7 +26,7 @@ const AuthService: IAuthService = {
             }
 
             
-            const query = await db.query('SELECT * FROM users WHERE email= ? ', {
+            const query = await db.query('SELECT * FROM user WHERE email= ? ', {
                 replacements: [body.email],
                 type: QueryTypes.SELECT,
             });
@@ -55,17 +55,20 @@ const AuthService: IAuthService = {
                 throw new Error(validate.error.message);
             }
 
-            const user = await db.query('SELECT * FROM users WHERE email= ? ', {
+            const user = await db.query('SELECT * FROM user WHERE email= ? ', {
                 replacements: [body.email]
             });
+            console.log(user);
+            
+            if (user[0].length !== 0) {
+                const isMatched: boolean = user && (await comparePassword(body));
+    
+                if (isMatched) {
+                    return user;
+                }
+                throw new Error('Invalid password or email');
+            } else { return null }
 
-            const isMatched: boolean = user && (await comparePassword(body));
-
-            if (isMatched) {
-                return user;
-            }
-
-            throw new Error('Invalid password or email');
         } catch (error) {
             throw new Error(error);
         }

@@ -14,6 +14,8 @@
     token?: string;
     isActive?: boolean;
     idRol?: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 /**

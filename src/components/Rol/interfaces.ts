@@ -7,6 +7,8 @@ export interface IRolModel {
     id: string,
     name: string,
     permissions: IPermissions,
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 /**

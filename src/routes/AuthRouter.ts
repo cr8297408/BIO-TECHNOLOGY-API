@@ -119,7 +119,7 @@ router.post('/login', AuthComponent.login);
  *              $ref: '#/components/schemas/Error'
  */
 
-router.get('/user/:id', jwtConfig.isAuthenticated, AuthComponent.user);
+router.get('/user', jwtConfig.isAuthenticated, AuthComponent.user);
 
 
 /**

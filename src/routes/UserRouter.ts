@@ -37,7 +37,7 @@ router.get('/', UserComponent.findAll);
 
 /**
  * GET method route
- * @example http://localhost:PORT/v2/users/pagination?page=1?size=2
+ * @example http://localhost:PORT/v2/users/pagination?page=1&size=2
  *
  * @swagger
  * /v2/users/pagination?page?size:
@@ -69,7 +69,7 @@ router.get('/pagination', UserComponent.findPagination);
  * @example http://localhost:PORT/v2/users
  *
  * @swagger
- * /v1/users:
+ * /v2/users:
  *   post:
  *      description: Create new User
  *      tags: ["users"]
@@ -108,7 +108,7 @@ router.post('/', UserComponent.create); // ruta prueba con mysql
  * @example http://localhost:PORT/v2/users/:id
  *
  * @swagger
- * /v1/users/{id}:
+ * /v2/users/{id}:
  *  get:
  *    description: Get user by userId
  *    tags: ["users"]
@@ -138,7 +138,7 @@ router.get('/:id', UserComponent.findOne); // ruta prueba con mysql
  * @example  http://localhost:PORT/v2/users/:id
  *
  * @swagger
- * /v1/users/{id}:
+ * /v2/users/{id}:
  *  delete:
  *    description: Delete user by userId
  *    tags: ["users"]

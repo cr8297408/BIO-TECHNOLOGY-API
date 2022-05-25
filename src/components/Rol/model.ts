@@ -6,6 +6,8 @@ const RolModel = (sequelize: any, DataTypes: any) => {
         id: string;
         name: string;
         permissions: IPermissions;
+        createdAt: Date;
+        updatedAt: Date;
     };
     Rol.init({
         id: {
@@ -22,7 +24,17 @@ const RolModel = (sequelize: any, DataTypes: any) => {
         permissions: {
             type: DataTypes.JSON,
             allowNull: false,
-        }
+        },
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW()
+          },
+          updatedAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW()
+          }
     }, {
         sequelize,
         tableName: 'rol',

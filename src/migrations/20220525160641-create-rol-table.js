@@ -18,15 +18,17 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW()
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW()
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Rols');
+    await queryInterface.dropTable('rol');
   }
 };

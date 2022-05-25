@@ -48,17 +48,22 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     try {
         const user: IUserModel = await AuthService.getUser(req.body);
 
-        const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
-            expiresIn: '60m',
-        });
-
-        res.status(HttpStatus.OK)
-            .header({
-                Authorization: token,
-            })
-            .send({
-                message: 'Login Success!',
+        if(user){
+            const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
+                expiresIn: '60m',
             });
+    
+            res.status(HttpStatus.OK)
+                .header({
+                    Authorization: token,
+                })
+                .send({
+                    message: 'Login Success!',
+                });
+        } else {
+            res.status(401).json('usuario no registrado.')
+        }
+
     } catch (error) {
         if (error.code === 500) {
             return next(new HttpError(error.message.status, error.message));
