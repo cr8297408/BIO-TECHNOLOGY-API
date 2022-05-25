@@ -1,7 +1,6 @@
 /**
  * @export
  * @interface IUserModel
- * @extends {Document}
  */
 
  export interface IUserModel {
