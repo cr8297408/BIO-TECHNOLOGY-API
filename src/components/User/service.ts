@@ -111,7 +111,7 @@ const UserService: IUserService = {
                 throw new Error(validate.error.message);
             }
 
-            await db.query('UPDATE users SET isActive=false WHERE id = ?', {
+            await db.query('UPDATE user SET isActive=false WHERE id = ?', {
                 replacements: [id],
             });
             

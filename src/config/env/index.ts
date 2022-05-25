@@ -9,8 +9,7 @@ interface IConfig {
         DB_NAME?: string;
         DB_PASS?: string;
         DB_HOST?: string;
-        MONGODB_URI: string;
-        MONGODB_DB_MAIN: string;
+        DB_DIALECT?: string;
     };
     secret: string;
 }
@@ -24,26 +23,7 @@ const development: IConfig = {
         DB_PASS: process.env.DB_PASS,
         DB_USER: process.env.DB_USER,
         DB_HOST: process.env.DB_HOST,
-        MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/',
-        MONGODB_DB_MAIN: process.env.MONGODB_DB_MAIN || 'example_db',
-    },
-    secret: process.env.SECRET || 'secret',
-};
-
-const production: IConfig = {
-    port: process.env.PORT || 3000,
-    database: {
-        MONGODB_URI: process.env.MONGODB_URI || 'mongodb://production_uri/',
-        MONGODB_DB_MAIN: process.env.MONGODB_DB_MAIN || 'example_db',
-    },
-    secret: process.env.SECRET || 'secret',
-};
-
-const test: IConfig = {
-    port: process.env.PORT || 3000,
-    database: {
-        MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017',
-        MONGODB_DB_MAIN: `${(process.env.MONGODB_DB_MAIN || 'example_db')}_test`,
+        DB_DIALECT: process.env.DB_DIALECT,
     },
     secret: process.env.SECRET || 'secret',
 };
@@ -51,9 +31,7 @@ const test: IConfig = {
 const config: {
     [name: string]: IConfig;
 } = {
-    test,
-    development,
-    production,
+  development,
 };
 
 export default config[NODE_ENV];

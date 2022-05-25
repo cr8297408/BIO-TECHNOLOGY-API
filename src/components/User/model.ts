@@ -27,9 +27,10 @@ const UserModel = (sequelize: any, DataTypes: any) => {
     passwordResetToken?: string;
     passwordResetExpires?: Date;
 
-    facebook?: string;
+    facebook!: string;
     token?: string;
     isActive?: boolean;
+    idRol?: string;
     
   };
   User.init({
@@ -63,15 +64,25 @@ const UserModel = (sequelize: any, DataTypes: any) => {
     },
     facebook: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+    },
+    idRol: {
+      type: DataTypes.STRING,
+      references: {
+        model: "rol",
+        key: "id"
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE"
     }
 
   }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'user',
   });
   return User;
 };

@@ -70,6 +70,7 @@
     "jsdoc": "^3.6.3",
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
+    "sequelize-cli": "^6.4.1",
     "source-map-loader": "^0.2.4",
     "supertest": "^4.0.2",
     "swagger-jsdoc": "^3.4.0",

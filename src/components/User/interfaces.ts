@@ -10,9 +10,10 @@
     password: string;
     passwordResetToken?: string;
     passwordResetExpires?: Date;
-    facebook?: string;
+    facebook: string;
     token?: string;
     isActive?: boolean;
+    idRol?: string;
 }
 
 /**
