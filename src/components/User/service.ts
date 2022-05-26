@@ -1,9 +1,8 @@
-import db  from '../../config/connection/connectBD';
-import { DataTypes } from 'sequelize';
 import * as Joi from '@hapi/joi';
-import UserModel from './model';
+import { User } from './model';
 import UserValidation from './validation';
-import { IUserService, IUserModel } from './interfaces';
+import { IUserService } from './interfaces';
+import db from '@/config/connection/connectBD';
 
 
 /**
@@ -12,12 +11,12 @@ import { IUserService, IUserModel } from './interfaces';
  */
 const UserService: IUserService = {
     /**
-     * @returns {Promise < IUserModel[] >}
+     * @returns {Promise <any>}
      * @memberof UserService
      */
-    async findAll(): Promise<IUserModel[]> {
+    async findAll(): Promise<any> {
         try {
-            const users: IUserModel[] = await UserModel(db, DataTypes).findAll();
+            const users = await db.models.User.findAll();
             return users;
         } catch (error) {
             throw new Error(error.message);
@@ -25,10 +24,10 @@ const UserService: IUserService = {
     },
 
     /**
-     * @returns {Promise < IUserModel[] >}
+     * @returns {Promise < User[] >}
      * @memberof UserService
      */
-    async findPagination(sizeAsNumber: number, pageAsNumber: number): Promise<IUserModel[]> {
+    async findPagination(sizeAsNumber: number, pageAsNumber: number): Promise<User[]> {
         try {
 
             let page = 0;
@@ -41,7 +40,7 @@ const UserService: IUserService = {
                 size = sizeAsNumber;
             }
 
-            const users: IUserModel[] = await UserModel(db, DataTypes).findAll({
+            const users: User[] = await User.findAll({
                 limit: size,
                 offset: size * page,
             })
@@ -54,13 +53,14 @@ const UserService: IUserService = {
 
     /**
      * @param {string} id
-     * @returns {Promise < IUserModel >}
+     * @returns {Promise < User >}
      * @memberof UserService
      */
-    async findOne(id: string): Promise<IUserModel> {
+    async findOne(id: string): Promise<User> {
         try {
-            const user: IUserModel = await UserModel(db, DataTypes).findByPk(id);
-
+            const user: User = await User.findByPk(id);
+            console.log(user);
+            
             if (!user) {
                 throw new Error('user dot not exist');
             }
@@ -72,22 +72,21 @@ const UserService: IUserService = {
     },
 
     /**
-     * @param {IUserModel} user
-     * @returns {Promise < IUserModel >}
+     * @param {User} user
+     * @returns {Promise < User >}
      * @memberof UserService
      */
-    async insert(body: IUserModel): Promise<IUserModel> {
+    async insert(body): Promise<any> {
         try {
 
 
-            const validate: Joi.ValidationResult<IUserModel> = UserValidation.createUser(body);
+            const validate: Joi.ValidationResult<User> = UserValidation.createUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
             }
 
-            const user: IUserModel = await UserModel(db, DataTypes).create(body)
-
+            const user = await User.create({body});
             return user;
         } catch (error) {
             throw new Error(error.message);
@@ -96,10 +95,10 @@ const UserService: IUserService = {
 
     /**
      * @param {string} id
-     * @returns {Promise < IUserModel >}
+     * @returns {Promise < User >}
      * @memberof UserService
      */
-    async remove(id: string): Promise<IUserModel> {
+    async remove(id: string): Promise<any> {
         try {
             const validate: Joi.ValidationResult<{
                 id: string;
@@ -110,19 +109,13 @@ const UserService: IUserService = {
             if (validate.error) {
                 throw new Error(validate.error.message);
             }
-
-            await db.query('UPDATE user SET isActive=false WHERE id = ?', {
+            
+            // const user = await User.update({isActive: false} , {where: {id}})
+            const user = await db.query('UPDATE user SET isActive=false WHERE id = ?', {
                 replacements: [id],
             });
-            
-            const user = await UserModel(db, DataTypes).findByPk(id);
-            // await user.update({
-            //     isActive: false,
-            // })
-            
             return user
 
-        
         } catch (error) {
             throw new Error(error.message);
         }

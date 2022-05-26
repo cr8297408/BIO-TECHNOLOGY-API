@@ -1,9 +1,9 @@
+import {User} from '@/components/User/model';
 import db from '../connection/connectBD';
-import { IUserModel } from '@/components/User/interfaces';
 
 import * as bcrypt from 'bcrypt';
 
-const comparePassword = async function (body: IUserModel): Promise<boolean> {
+const comparePassword = async function (body: User): Promise<boolean> {
     try {
 
         const password= await db.query('SELECT password FROM users WHERE id= ?', {

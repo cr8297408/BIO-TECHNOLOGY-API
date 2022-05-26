@@ -1,6 +1,6 @@
 import * as Joi from '@hapi/joi';
 // import Validation from '@/components/validation';
-import { IUserModel } from './interfaces';
+import {User} from './model';
 
 /**
  * @export
@@ -14,11 +14,11 @@ class UserValidation /**extends Validation**/ {
      */
 
     /**
-     * @param {IUserModel} params
-     * @returns {Joi.ValidationResult<IUserModel >}
+     * @param {User} params
+     * @returns {Joi.ValidationResult<User >}
      * @memberof UserValidation
      */
-    createUser(params: IUserModel): Joi.ValidationResult<IUserModel> {
+    createUser(params: User): Joi.ValidationResult<User> {
         const schema: Joi.ObjectSchema = Joi.object().keys({
             name: Joi.string().required(),
             email: Joi.string()

@@ -3,17 +3,16 @@ import * as serverHandlers from './serverHandlers';
 import server from './server';
 import db from '../connection/connectBD';
 
-
 const Server: http.Server = http.createServer(server);
     
 async function dbConnection(){
     try {
-        await db.authenticate();
-        console.log('Database connect');
-        Server.listen(server.get('port'), () => {
-            console.log('app running'); 
+        db.sync().then(() =>{
+            console.log('Database connect');
+            Server.listen(server.get('port'), () => {
+                console.log('app running'); 
+            });
         });
-            
     } catch (error) {
         throw new Error(error)
     }

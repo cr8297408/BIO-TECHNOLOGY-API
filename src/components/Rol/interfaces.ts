@@ -18,7 +18,7 @@ export interface IRolModel {
 
 export interface IPermissions {
     // add modules of the api
-    User: {
+    module: {
         // add actions of the module
         findAll: boolean,
         findPagination: boolean,

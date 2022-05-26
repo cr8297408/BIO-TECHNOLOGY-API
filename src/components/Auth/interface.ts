@@ -1,4 +1,4 @@
-import { IUserModel } from '@/components/User/interfaces';
+import { User } from '@/components/User/model';
 
 /**
  * @export
@@ -6,15 +6,15 @@ import { IUserModel } from '@/components/User/interfaces';
  */
 export interface IAuthService {
     /**
-     * @param {IUserModel} IUserModel
-     * @returns {Promise<IUserModel>}
+     * @param {User} User
+     * @returns {Promise<User>}
      * @memberof AuthService
      */
-    createUser(IUserModel: IUserModel): Promise<IUserModel>;
+    createUser(User: User): Promise<User>;
     /**
-     * @param {IUserModel} IUserModel
-     * @returns {Promise<IUserModel>}
+     * @param {User} User
+     * @returns {Promise<User>}
      * @memberof AuthService
      */
-    getUser(IUserModel: IUserModel): Promise<any>;
+    getUser(User: User): Promise<any>;
 }

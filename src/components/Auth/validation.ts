@@ -1,6 +1,6 @@
 import * as Joi from '@hapi/joi';
 import Validation from '@/components/validation';
-import { IUserModel } from '@/components/User/interfaces';
+import {User} from '@/components/User/model';
 
 /**
  * @export
@@ -16,11 +16,11 @@ class AuthValidation extends Validation {
         super();
     }
     /**
-     * @param {IUserModel} params
-     * @returns {Joi.ValidationResult<IUserModel >}
+     * @param {User} params
+     * @returns {Joi.ValidationResult<User >}
      * @memberof UserValidation
      */
-    createUser(params: IUserModel): Joi.ValidationResult<IUserModel> {
+    createUser(params: User): Joi.ValidationResult<User> {
         const schema: Joi.ObjectSchema = Joi.object().keys({
             name: Joi.string().required(),
             password: Joi.string().required(),
@@ -34,11 +34,11 @@ class AuthValidation extends Validation {
         return schema.validate(params);
     }
     /**
-     * @param {IUserModel} params
-     * @returns {Joi.ValidationResult<IUserModel >}
+     * @param {User} params
+     * @returns {Joi.ValidationResult<User >}
      * @memberof UserValidation
      */
-    getUser(params: IUserModel): Joi.ValidationResult<IUserModel> {
+    getUser(params: User): Joi.ValidationResult<User> {
         const schema: Joi.ObjectSchema = Joi.object().keys({
             password: Joi.string().required(),
             email: Joi.string()

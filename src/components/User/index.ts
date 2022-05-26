@@ -1,6 +1,6 @@
 import UserService from './service';
 import { HttpError } from '@/config/error';
-import { IUserModel } from './interfaces';
+import {User} from './model';
 import { NextFunction, Request, Response } from 'express';
 
 /**
@@ -12,7 +12,7 @@ import { NextFunction, Request, Response } from 'express';
  */
 export async function findAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const users: IUserModel[] = await UserService.findAll();
+        const users: User[] = await UserService.findAll();
 
         res.status(200).json(users);
     } catch (error) {
@@ -31,7 +31,7 @@ export async function findPagination(req: Request, res: Response, next: NextFunc
     try {
         const sizeAsNumber = Number.parseInt(req.query.size);
         const pageAsNumber = Number.parseInt(req.query.page);
-        const users: IUserModel[] = await UserService.findPagination(sizeAsNumber, pageAsNumber);
+        const users: User[] = await UserService.findPagination(sizeAsNumber, pageAsNumber);
 
         res.json(users)
     } catch (error) {
@@ -48,7 +48,7 @@ export async function findPagination(req: Request, res: Response, next: NextFunc
  */
 export async function findOne(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: IUserModel = await UserService.findOne(req.params.id.toString());
+        const user: User = await UserService.findOne(req.params.id.toString());
 
         res.status(200).json(user);
     } catch (error) {
@@ -65,7 +65,7 @@ export async function findOne(req: Request, res: Response, next: NextFunction): 
  */
 export async function create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: IUserModel = await UserService.insert(req.body);
+        const user: User = await UserService.insert(req.body);
 
         res.status(201).json(user);
     } catch (error) {
@@ -82,7 +82,7 @@ export async function create(req: Request, res: Response, next: NextFunction): P
  */
 export async function remove(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: IUserModel = await UserService.remove(req.params.id);
+        const user: User = await UserService.remove(req.params.id);
 
         res.status(200).json(user);
     } catch (error) {

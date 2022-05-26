@@ -1,46 +1,30 @@
-import { IRolModel, IPermissions } from "./interfaces";
-import { Model, UUIDV4 } from 'sequelize';
+import { IPermissions } from './interfaces';
+'use strict';
+import { Table, Column, Model, CreatedAt, UpdatedAt, Default, PrimaryKey} from 'sequelize-typescript'
+import { UUIDV4, NOW } from 'sequelize';
 
-const RolModel = (sequelize: any, DataTypes: any) => {
-    class Rol extends Model<IRolModel> implements IRolModel {
-        id: string;
-        name: string;
-        permissions: IPermissions;
-        createdAt: Date;
-        updatedAt: Date;
-    };
-    Rol.init({
-        id: {
-            type: DataTypes.STRING,
-            defaultValue: UUIDV4,
-            unique: true,
-            primaryKey: true,
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-        },
-        permissions: {
-            type: DataTypes.JSON,
-            allowNull: false,
-        },
-        createdAt: {
-            allowNull: false,
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW()
-          },
-          updatedAt: {
-            allowNull: false,
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW()
-          }
-    }, {
-        sequelize,
-        tableName: 'rol',
-    })
+@Table({
+  timestamps: false,
+  tableName: "rol"
+})
+export class Rol extends Model {
+  @PrimaryKey
+  @Default(UUIDV4)
+  @Column
+  id: string;
 
-    return Rol;
+  @Column
+  name: string;
+  
+  permissions: IPermissions;
+  
+  @CreatedAt
+  @Default(NOW())
+  @Column
+  createdAt?: Date;
+  
+  @UpdatedAt
+  @Default(NOW())
+  @Column
+  updatedAt?: Date;
 }
-
-export default RolModel;

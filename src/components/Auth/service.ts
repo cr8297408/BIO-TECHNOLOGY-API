@@ -1,11 +1,10 @@
 import db from '../../config/connection/connectBD';
-import { DataTypes, QueryTypes } from 'sequelize';
+import { QueryTypes } from 'sequelize';
 import * as Joi from '@hapi/joi';
 import AuthValidation from './validation';
-import UserModel from '@/components/User/model';
 import { IAuthService } from './interface';
 import comparePassword from '../../config/middleware/user.middleware';
-import { IUserModel } from '../User/interfaces';
+import {User}  from '../User/model';
 
 /**
  * @export
@@ -13,13 +12,13 @@ import { IUserModel } from '../User/interfaces';
  */
 const AuthService: IAuthService = {
     /**
-     * @param {IUserModel} body
-     * @returns {Promise <IUserModel>}
+     * @param {User} body
+     * @returns {Promise <User>}
      * @memberof AuthService
      */
-    async createUser(body: IUserModel): Promise<IUserModel> {
+    async createUser(body): Promise<User> {
         try {
-            const validate: Joi.ValidationResult<IUserModel> = AuthValidation.createUser(body);
+            const validate: Joi.ValidationResult<User> = AuthValidation.createUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
@@ -35,7 +34,7 @@ const AuthService: IAuthService = {
                 throw new Error('This email already exists');
             }
             
-            const user: IUserModel = await UserModel(db, DataTypes).create(body);
+            const user: User = await User.create({body});
 
             return user;
         } catch (error) {
@@ -43,13 +42,13 @@ const AuthService: IAuthService = {
         }
     },
     /**
-     * @param {IUserModel} body
-     * @returns {Promise <IUserModel>}
+     * @param {User} body
+     * @returns {Promise <User>}
      * @memberof AuthService
      */
-    async getUser(body: IUserModel): Promise<any> {
+    async getUser(body: User): Promise<any> {
         try {
-            const validate: Joi.ValidationResult<IUserModel> = AuthValidation.getUser(body);
+            const validate: Joi.ValidationResult<User> = AuthValidation.getUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);

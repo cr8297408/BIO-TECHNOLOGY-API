@@ -1,11 +1,12 @@
 import * as HttpStatus from 'http-status-codes';
 import * as jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
-import { IUserModel, IUserRequest } from '@/components/User/interfaces';
+import { IUserRequest } from '@/components/User/interfaces';
 import HttpError from '@/config/error';
 import AuthService from './service';
 import UserService from '@/components/User/service';
 import app from '@/config/server/server';
+import {User} from '../User/model';
 
 interface RequestWithUser extends Request {
     user: IUserRequest;
@@ -46,7 +47,7 @@ export async function signup(req: Request, res: Response, next: NextFunction): P
  */
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: IUserModel = await AuthService.getUser(req.body);
+        const user: User = await AuthService.getUser(req.body);
 
         if(user){
             const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
@@ -84,7 +85,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
  */
 export async function user(req: RequestWithUser, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: IUserModel = await UserService.findOne(req.params.id);
+        const user: User = await UserService.findOne(req.params.id);
 
         res.status(HttpStatus.OK)
             .send({ user });

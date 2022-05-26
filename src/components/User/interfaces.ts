@@ -1,21 +1,16 @@
+import {User} from "./model";
+
 /**
  * @export
  * @interface IUserModel
  */
 
- export interface IUserModel {
-    id: string;
-    email: string;
+export interface IProfileUser {
     name: string;
-    password: string;
-    passwordResetToken?: string;
-    passwordResetExpires?: Date;
-    facebook: string;
-    token?: string;
-    isActive?: boolean;
-    idRol?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    gender: string;
+    location: string;
+    website: string;
+    picture: string;
 }
 
 /**
@@ -35,35 +30,35 @@
 
 export interface IUserService {
     /**
-     * @returns {Promise<IUserModel[]>}
+     * @returns {Promise<User[]>}
      * @memberof IUserService
      */
-    findAll(): Promise<IUserModel[]>;
+    findAll(): Promise<User[]>;
 
     /**
-     * @returns {Promise<IUserModel[]>}
+     * @returns {Promise<User[]>}
      * @memberof IUserService
      */
-    findPagination(size: number, page: number): Promise<IUserModel[]>;
+    findPagination(size: number, page: number): Promise<User[]>;
 
     /**
      * @param {string} code
-     * @returns {Promise<IUserModel>}
+     * @returns {Promise<User>}
      * @memberof IUserService
      */
-    findOne(code: string): Promise<IUserModel>;
+    findOne(code: string): Promise<User>;
 
     /**
-     * @param {IUserModel} IUserModel
-     * @returns {Promise<IUserModel>}
+     * @param {User} User
+     * @returns {Promise<User>}
      * @memberof IUserService
      */
-    insert(IUserModel: IUserModel): Promise<IUserModel>;
+    insert(IUserModel: User): Promise<User>;
 
     /**
      * @param {string} id
-     * @returns {Promise<IUserModel>}
+     * @returns {Promise<User>}
      * @memberof IUserService
      */
-    remove(id: string): Promise<IUserModel>;
+    remove(id: string): Promise<User>;
 }
