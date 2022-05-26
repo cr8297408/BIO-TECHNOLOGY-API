@@ -29,6 +29,7 @@ class AuthValidation extends Validation {
                     minDomainSegments: 2,
                 })
                 .required(),
+            facebook: Joi.string().required(),
         });
 
         return schema.validate(params);

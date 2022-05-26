@@ -243,6 +243,44 @@
         }
       }
     },
+    "/v2/users/pagination": {
+      "get": {
+        "description": "Get paginate users in Database",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A little array of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Users"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }},
     "/v2/users/{id}": {
       "get": {
         "description": "Get user by userId",
@@ -320,7 +358,45 @@
           }
         }
       }
-    }
+    },
+    "/v2/roles": {
+      "get": {
+        "description": "Get all stored roles in Database",
+        "tags": [
+          "roles"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Roles"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }}
   },
   "components": {
     "schemas": {
@@ -386,6 +462,35 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    },
+    "/v2/roles": { 
+      "get": {
+      "description": "Get All Roles",
+      "tags": [
+        "roles"
+      ],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "return all the roles",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/RolesSchema"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
     }
   },
   "tags": []

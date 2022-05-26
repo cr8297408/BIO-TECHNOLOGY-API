@@ -26,7 +26,8 @@ class UserValidation /**extends Validation**/ {
                     minDomainSegments: 2,
                 })
                 .required(),
-            password: Joi.string().required()
+            password: Joi.string().required(),
+            facebook: Joi.string().required()
         });
 
         return schema.validate(params);

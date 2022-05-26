@@ -48,7 +48,7 @@ router.get('/', UserComponent.findAll);
  *      - bearerAuth: []
  *     responses:
  *       200:
- *         description: An array of users
+ *         description: A little array of users
  *         content:
  *           application/json:
  *             schema:
