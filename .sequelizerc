@@ -1,8 +1,12 @@
-const path = require('path');
+import * as dotenv from 'dotenv';
+import path from 'path';
+// const config = require("./src/config/env/index.ts");
+
+dotenv.config();
 
 module.exports = {
-    'config': path.resolve('src/config', 'config.json'),
-    'models-path': path.resolve('components', '/User/model.ts' || '/Rol/model.ts'),
+    'config': path.resolve('src/config/env', ''), 
+    //'models-path': path.resolve('components', '/User/model.ts' || '/Rol/model.ts'),
     'seeders-path': path.resolve('src/seeders'),
     'migrations-path': path.resolve('src/migrations')
 };

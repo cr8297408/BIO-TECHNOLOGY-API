@@ -40,7 +40,7 @@ router.get('/', UserComponent.findAll);
  * @example http://localhost:PORT/v2/users/pagination?page=1&size=2
  *
  * @swagger
- * /v2/users/pagination?page?size:
+ * /v2/users/pagination?
  *   get:
  *     description: Get all stored users in Database
  *     tags: ["users"]
@@ -85,6 +85,8 @@ router.get('/pagination', UserComponent.findPagination);
  *            example:
  *              name: userName
  *              email: test.user@mail.com
+ *              password: test_test
+ *              facebook: testface
  *      responses:
  *        201:
  *          description: return created user

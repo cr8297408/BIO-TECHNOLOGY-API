@@ -9,7 +9,7 @@ const router: Router = Router();
 
 /**
  * POST method route
- * @example http://localhost:PORT/signup
+ * @example http://localhost:PORT/auth/signup
  * @swagger
  * /auth/signup/:
  *  post:
@@ -25,6 +25,8 @@ const router: Router = Router();
  *          example:
  *            email: test.user@mail.com
  *            password: test_test
+ *            name: test
+ *            facebook: testface
  *    responses:
  *      200:
  *        description: user successfuly signed up
@@ -45,7 +47,7 @@ router.post('/signup', AuthComponent.signup);
 
 /**
  * POST method route
- * @example http://localhost:PORT/login
+ * @example http://localhost:PORT/auth/login
  *
  * @swagger
  * /auth/login/:
@@ -87,7 +89,7 @@ router.post('/login', AuthComponent.login);
 
 /**
  * GET method route
- * @example http://localhost:PORT/user/:id
+ * @example http://localhost:PORT/auth/user/:id
  *
  * @swagger
  * /auth/user/{id}:

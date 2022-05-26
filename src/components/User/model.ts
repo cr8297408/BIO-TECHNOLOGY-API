@@ -31,8 +31,8 @@ const UserModel = (sequelize: any, DataTypes: any) => {
     token?: string;
     isActive?: boolean;
     idRol?: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
     
   };
   User.init({
@@ -82,12 +82,10 @@ const UserModel = (sequelize: any, DataTypes: any) => {
       onUpdate: "SET NULL"
     },
     createdAt: {
-      allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW()
     },
     updatedAt: {
-      allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW()
     }

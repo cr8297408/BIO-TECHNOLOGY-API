@@ -5,12 +5,14 @@ import db from '../connection/connectBD';
 
 
 const Server: http.Server = http.createServer(server);
-console.log('tabla creada User');
     
 async function dbConnection(){
     try {
         await db.authenticate();
         console.log('Database connect');
+        Server.listen(server.get('port'), () => {
+            console.log('app running'); 
+        });
             
     } catch (error) {
         throw new Error(error)
@@ -19,9 +21,6 @@ async function dbConnection(){
 
 dbConnection();
 
-Server.listen(server.get('port'), () => {
-    console.log('app running'); 
-});
 
 
 /**

@@ -20,7 +20,13 @@ export async function findAll(req: Request, res: Response, next: NextFunction): 
     }
 }
 
-
+/**
+ * @export
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @returns {Promise < void >}
+ */
 export async function findPagination(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const sizeAsNumber = Number.parseInt(req.query.size);

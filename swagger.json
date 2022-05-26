@@ -27,7 +27,9 @@
               },
               "example": {
                 "email": "test.user@mail.com",
-                "password": "test_test"
+                "password": "test_test",
+                "name": "test",
+                "facebook": "testface"
               }
             }
           }
@@ -148,7 +150,7 @@
         }
       }
     },
-    "/v1/users": {
+    "/v2/users": {
       "get": {
         "description": "Get all stored users in Database",
         "tags": [
@@ -205,8 +207,10 @@
                 "$ref": "#/components/schemas/UserSchema"
               },
               "example": {
-                "name": "userName",
-                "email": "test.user@mail.com"
+                "email": "test.user@mail.com",
+                "password": "test_test",
+                "name": "test",
+                "facebook": "testface"
               }
             }
           }
@@ -239,7 +243,7 @@
         }
       }
     },
-    "/v1/users/{id}": {
+    "/v2/users/{id}": {
       "get": {
         "description": "Get user by userId",
         "tags": [

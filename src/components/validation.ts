@@ -1,5 +1,4 @@
 import * as Joi from '@hapi/joi';
-import { Types } from 'mongoose';
 
 /**
  * @export
@@ -14,7 +13,7 @@ abstract class Validation {
      * @type {string}
      * @memberof JoiSchema
      */
-    readonly messageObjectId: string = 'Argument passed in must be a single String of 12 bytes or a string of 24 hex characters';
+    readonly messageObjectId: string = 'Argument passed in must be a String';
 
     /**
      * Creates an instance of Schema.
@@ -22,14 +21,14 @@ abstract class Validation {
      */
     constructor() {
         this.customJoi = Joi.extend((joi: Joi.Context) => ({
-            type: 'objectId',
+            type: 'string',
             base: joi.string(),
             messages: {
                 objectId: this.messageObjectId,
             },
             validate(value: any, helpers: Joi.Context): any {
-                if (!Types.ObjectId.isValid(value)) {
-                    return { value: Types.ObjectId(value), errors: helpers.error('objectId') };
+                if (typeof(value) !== 'string') {
+                    return { value: value, errors: helpers.error('objectId') };
                 }
             },
         }));

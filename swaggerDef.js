@@ -5,7 +5,7 @@ module.exports = {
     info: {
         // API informations (required)
         title: 'TypeScript Express API', // Title (required)
-        version: '1.0.0', // Version (required)
+        version: '2.0.0', // Version (required)
         description: 'TypeScript, Express, JWT Auth, Mongoose', // Description (optional)
     },
     servers: [
