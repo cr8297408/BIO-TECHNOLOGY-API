@@ -13,6 +13,7 @@ export default async function users() {
                     email: `test${i}@mail.com`,
                     password: `12345test`,
                     facebook: `facebook.com/userTest${i}`,
+                    idRol: "idtest12345"
                 };
     
                 await User.create(user)

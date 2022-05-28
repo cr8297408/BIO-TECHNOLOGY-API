@@ -47,6 +47,7 @@ export class User extends Model<User> {
   isActive?: boolean;
   
   @ForeignKey(() => Rol)
+  @Column
   idRol?: string;
   
   @Default(false)

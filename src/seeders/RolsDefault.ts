@@ -6,6 +6,7 @@ export default async function rols() {
         const searchUser = await Rol.findAndCountAll()
         if (searchUser.count === 0) {           
             const rol: IRolModel = {
+                id: "idtest12345",
                 name: "onlyRead",
                 permissions: {
                         "nameModules": ["User", "Rol"],
