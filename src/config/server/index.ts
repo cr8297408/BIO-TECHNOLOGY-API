@@ -2,6 +2,8 @@ import * as http from 'http';
 import * as serverHandlers from './serverHandlers';
 import server from './server';
 import db from '../connection/connectBD';
+import users from '../../seeders/UsersDefault';
+import rols from '@/seeders/RolsDefault';
 
 const Server: http.Server = http.createServer(server);
     
@@ -11,6 +13,8 @@ async function dbConnection(){
             console.log('Database connect');
             Server.listen(server.get('port'), () => {
                 console.log('app running'); 
+                users();
+                rols();
             });
         });
     } catch (error) {

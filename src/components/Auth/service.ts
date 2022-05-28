@@ -34,7 +34,7 @@ const AuthService: IAuthService = {
                 throw new Error('This email already exists');
             }
             
-            const user: User = await User.create({body});
+            const user = await User.create(body);        
 
             return user;
         } catch (error) {
@@ -57,7 +57,6 @@ const AuthService: IAuthService = {
             const user = await db.query('SELECT * FROM user WHERE email= ? ', {
                 replacements: [body.email]
             });
-            console.log(user);
             
             if (user[0].length !== 0) {
                 const isMatched: boolean = user && (await comparePassword(body));

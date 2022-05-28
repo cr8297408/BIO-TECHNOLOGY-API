@@ -2,7 +2,7 @@ import {User} from "./model";
 
 /**
  * @export
- * @interface IUserModel
+ * @interface IProfileUser
  */
 
 export interface IProfileUser {
@@ -11,6 +11,32 @@ export interface IProfileUser {
     location: string;
     website: string;
     picture: string;
+}
+
+/**
+ * @export
+ * @interface IProfileUser
+ */
+
+export interface IUser {
+    id?: string,
+    name: string,
+    email: string;
+    password: string;
+    passwordResetToken?: string;
+    passwordResetExpires?: Date;
+    facebook: string;
+    token?: string;
+    profile?: {
+        name: string;
+        gender: string;
+        location: string;
+        website: string;
+        picture: string;
+    };
+    isActive?: boolean,
+    idRol?: string,
+    isAdmin?: boolean,
 }
 
 /**

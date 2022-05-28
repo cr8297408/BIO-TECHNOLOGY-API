@@ -1,13 +1,13 @@
-import { IPermissions } from './interfaces';
+// import { IPermissions } from './interfaces';
 'use strict';
-import { Table, Column, Model, CreatedAt, UpdatedAt, Default, PrimaryKey} from 'sequelize-typescript'
-import { UUIDV4, NOW } from 'sequelize';
+import { Table, Column, Model, Default, PrimaryKey, DataType} from 'sequelize-typescript'
+import { UUIDV4 } from 'sequelize';
 
 @Table({
-  timestamps: false,
+  timestamps: true,
   tableName: "rol"
 })
-export class Rol extends Model {
+export class Rol extends Model<Rol> {
   @PrimaryKey
   @Default(UUIDV4)
   @Column
@@ -16,15 +16,7 @@ export class Rol extends Model {
   @Column
   name: string;
   
-  permissions: IPermissions;
-  
-  @CreatedAt
-  @Default(NOW())
-  @Column
-  createdAt?: Date;
-  
-  @UpdatedAt
-  @Default(NOW())
-  @Column
-  updatedAt?: Date;
+  @Column(DataType.JSON)
+  permissions: any;
+
 }

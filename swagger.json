@@ -254,6 +254,14 @@
             "bearerAuth": []
           }
         ],
+        "parameters": {
+          "in": "path",
+          "name": "page?size",
+          "description": "the unique userId",
+          "required": true,
+          "schema": {
+            "type": "string"
+        }},
         "responses": {
           "200": {
             "description": "A little array of users",
@@ -427,10 +435,36 @@
           },
           "tokens": {
             "type": "array"
+          },
+          "profile": {
+            "type": "json"
           }
         }
       },
       "Users": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserSchema"
+        }
+      },
+      "RolesSchema": {
+        "required": [
+          "email",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "json"
+          }
+        }
+      },
+      "Roles": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/UserSchema"

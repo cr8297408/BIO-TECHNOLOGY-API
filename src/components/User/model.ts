@@ -1,8 +1,9 @@
+// import { Json } from 'sequelize/types/utils';
 'use strict';
 
-import { IProfileUser } from './interfaces';
-import { Table, Column, Model,  CreatedAt, UpdatedAt, ForeignKey, Default, PrimaryKey } from 'sequelize-typescript'
-import { UUIDV4, NOW } from 'sequelize';
+// import { IProfileUser } from './interfaces';
+import { Table, Column, Model, ForeignKey, Default, PrimaryKey, DataType } from 'sequelize-typescript'
+import { UUIDV4 } from 'sequelize';
 
 import {Rol} from '../Rol/model';
 export type AuthToken = {
@@ -11,10 +12,10 @@ export type AuthToken = {
 };
 
 @Table({
-  timestamps: false,
+  timestamps: true,
   tableName: "user"
 })
-export class User extends Model {
+export class User extends Model<User> {
   @PrimaryKey
   @Default(UUIDV4)
   @Column
@@ -52,15 +53,7 @@ export class User extends Model {
   @Column
   isAdmin?: boolean;
 
-  @CreatedAt
-  @Default(NOW())
-  @Column
-  createdAt?: Date;
+  @Column(DataType.JSON)
+  profile?: any;
   
-  @Default(NOW())
-  @UpdatedAt
-  @Column
-  updatedAt?: Date;
-  
-  profile: IProfileUser;
 }

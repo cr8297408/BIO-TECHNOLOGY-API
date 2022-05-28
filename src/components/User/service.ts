@@ -79,14 +79,13 @@ const UserService: IUserService = {
     async insert(body): Promise<any> {
         try {
 
-
             const validate: Joi.ValidationResult<User> = UserValidation.createUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
             }
 
-            const user = await User.create({body});
+            const user = await User.create(body);
             return user;
         } catch (error) {
             throw new Error(error.message);

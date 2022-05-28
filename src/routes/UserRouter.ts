@@ -46,6 +46,12 @@ router.get('/', UserComponent.findAll);
  *     tags: ["users"]
  *     security:
  *      - bearerAuth: []
+ *     - in: path
+ *        name: page?size
+ *        description: page an sie paginatin
+ *        required: true
+ *        schema:
+ *          type: string
  *     responses:
  *       200:
  *         description: A little array of users

@@ -4,7 +4,7 @@
  */
 
 export interface IRolModel {
-    id: string,
+    id?: string,
     name: string,
     permissions: IPermissions,
     createdAt?: Date;
@@ -17,15 +17,13 @@ export interface IRolModel {
  */
 
 export interface IPermissions {
-    // add modules of the api
-    module: {
-        // add actions of the module
-        findAll: boolean,
-        findPagination: boolean,
-        findOne: boolean,
-        insert: boolean,
-        remove: boolean,
-    }
+    // add actions of the module
+    nameModules: Array<string>,
+    findAll: boolean,
+    findPagination: boolean,
+    findOne: boolean,
+    insert: boolean,
+    remove: boolean,
 }
 
 /**
@@ -39,35 +37,5 @@ export interface IRolService {
      * @returns {Promise<IRolModel[]>}
      * @memberof IRolService
      */
-    findAll(): Promise<IRolModel[]>;
-
-    // /**
-    //  * @returns {Promise<IRolModel[]>}
-    //  * @memberof IRolService
-    //  */
-    // findPagination(size: number, page: number): Promise<IRolModel[]>;
-
-    // /**
-    //  * @returns {Promise<IRolModel>}
-    //  * @memberof IRolService
-    //  */
-    // findOne(id: string): Promise<IRolModel>;
-
-    // /**
-    //  * @returns {Promise<IRolModel>}
-    //  * @memberof IRolService
-    //  */
-    // insert(IRolModel: IRolModel): Promise<IRolModel>;
-
-    // /**
-    //  * @returns {Promise<IRolModel>}
-    //  * @memberof IRolService
-    //  */
-    // remove(id: string): Promise<IRolModel>;
-
-    // /**
-    //  * @returns {Promise<IRolModel>}
-    //  * @memberof IRolService
-    //  */
-    // update(id: string): Promise<IRolService>;
+    findAll(): Promise<IRolModel[]>
 }

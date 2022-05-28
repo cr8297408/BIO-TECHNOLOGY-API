@@ -31,6 +31,13 @@ export async function findPagination(req: Request, res: Response, next: NextFunc
     try {
         const sizeAsNumber = Number.parseInt(req.query.size);
         const pageAsNumber = Number.parseInt(req.query.page);
+        const filter = req.query;
+        if(filter){
+            console.log(filter);
+            
+        } else {
+            console.log('nop');
+        }
         const users: User[] = await UserService.findPagination(sizeAsNumber, pageAsNumber);
 
         res.json(users)
