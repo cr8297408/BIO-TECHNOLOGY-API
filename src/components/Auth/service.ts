@@ -58,9 +58,10 @@ const AuthService: IAuthService = {
                 replacements: [body.email]
             });
             
+            
             if (user[0].length !== 0) {
                 const isMatched: boolean = user && (await comparePassword(body));
-    
+                
                 if (isMatched) {
                     return user;
                 }

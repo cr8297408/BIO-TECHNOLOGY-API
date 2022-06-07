@@ -1,10 +1,11 @@
+import config from '@/config/env/index';
+import db from '@/config/connection/connectBD';
 import * as HttpStatus from 'http-status-codes';
 import * as jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { IUserRequest } from '@/components/User/interfaces';
 import HttpError from '@/config/error';
 import AuthService from './service';
-import UserService from '@/components/User/service';
 import app from '@/config/server/server';
 import {User} from '../User/model';
 
@@ -47,13 +48,17 @@ export async function signup(req: Request, res: Response, next: NextFunction): P
  */
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: User = await AuthService.getUser(req.body);
+        const user = await AuthService.getUser(req.body);
 
         if(user){
-            const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
+            const dataUser:User = user[0][0];
+            const token: string = jwt.sign({ id: dataUser.id, idRol: dataUser.idRol, isAdmin: dataUser.isAdmin, isActive: dataUser.isActive }, app.get('secret'), {
                 expiresIn: '60m',
             });
-    
+
+            await db.query('UPDATE user SET token=? WHERE id = ?', {
+                replacements: [token, dataUser.id],
+            });
             res.status(HttpStatus.OK)
                 .header({
                     Authorization: token,
@@ -85,10 +90,17 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
  */
 export async function user(req: RequestWithUser, res: Response, next: NextFunction): Promise<void> {
     try {
-        const user: User = await UserService.findOne(req.params.id);
-
-        res.status(HttpStatus.OK)
-            .send({ user });
+        const bearerHeader = req.headers['authorization'];
+        const bearer = bearerHeader.split(' ');
+        const token = bearer[1];
+        if (token){
+            const decoded: any = await jwt.verify(token, config.JWT_SECRET);
+            if (decoded) {
+                const user: User = await User.findByPk(decoded.id);
+                res.status(HttpStatus.OK)
+                    .send({ user });            
+            } 
+        }
     } catch (error) {
         if (error.code === HttpStatus.INTERNAL_SERVER_ERROR) {
             return next(new HttpError(error.message.status, error.message));

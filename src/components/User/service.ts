@@ -1,3 +1,4 @@
+import roles from '@/config/middleware/permissions';
 import * as Joi from '@hapi/joi';
 import { User } from './model';
 import UserValidation from './validation';
@@ -14,10 +15,19 @@ const UserService: IUserService = {
      * @returns {Promise <any>}
      * @memberof UserService
      */
-    async findAll(): Promise<any> {
+    async findAll(bearerHeader): Promise<any> {
         try {
-            const users = await db.models.User.findAll();
-            return users;
+            const permissions = await roles(bearerHeader);
+            const module = permissions.nameModules.find((i:string)=> i === 'User')
+            if (module) {
+                if (permissions.findAll) {
+                    console.log(permissions);
+                    const users = await db.models.User.findAll();
+                    return users;
+                } 
+            }
+            throw new Error('unauthorized');
+            
         } catch (error) {
             throw new Error(error.message);
         }
@@ -27,7 +37,7 @@ const UserService: IUserService = {
      * @returns {Promise < User[] >}
      * @memberof UserService
      */
-    async findPagination(sizeAsNumber: number, pageAsNumber: number): Promise<User[]> {
+    async findPagination(sizeAsNumber: number, pageAsNumber: number, bearerHeader: any): Promise<User[]> {
         try {
 
             let page = 0;
@@ -40,12 +50,21 @@ const UserService: IUserService = {
                 size = sizeAsNumber;
             }
 
-            const users: User[] = await User.findAll({
-                limit: size,
-                offset: size * page,
-            })
+            const permissions = await roles(bearerHeader);
+            const module = await permissions.nameModules.find((i:string)=> i === 'User')
+            if (module) {
+                if (permissions.findPagination) {
+                    console.log(permissions);
+                    const users: User[] = await User.findAll({
+                        limit: size,
+                        offset: size * page,
+                    })
+                    return users
+                }
+            }
+            throw new Error('Unauthorized')
             
-            return users
+
         } catch (error) {
             throw new Error(error.message);
         }
@@ -56,16 +75,22 @@ const UserService: IUserService = {
      * @returns {Promise < User >}
      * @memberof UserService
      */
-    async findOne(id: string): Promise<User> {
+    async findOne(id: string, bearerHeader): Promise<User> {
         try {
-            const user: User = await User.findByPk(id);
-            console.log(user);
-            
-            if (!user) {
-                throw new Error('user dot not exist');
-            }
-
-            return user;
+            const permissions = await roles(bearerHeader);
+            const module = permissions.nameModules.find((i:string)=> i === 'User')
+            if (module) {
+                if (permissions.findOne) {
+                    const user: User = await User.findByPk(id);
+                    
+                    if (!user) {
+                        throw new Error('user dot not exist');
+                    }
+        
+                    return user;
+                }
+            } 
+            throw new Error('Unauthorized')
         } catch (error) {
             throw new Error(error.message);
         }
@@ -76,17 +101,22 @@ const UserService: IUserService = {
      * @returns {Promise < User >}
      * @memberof UserService
      */
-    async insert(body): Promise<any> {
+    async insert(body, bearerHeader): Promise<any> {
         try {
-
-            const validate: Joi.ValidationResult<User> = UserValidation.createUser(body);
-
-            if (validate.error) {
-                throw new Error(validate.error.message);
+            const permissions = await roles(bearerHeader);
+            const module = permissions.nameModules.find((i:string)=> i === 'User')
+            if (module) {
+                if (permissions.insert) {
+                    const validate: Joi.ValidationResult<User> = UserValidation.createUser(body);
+                    if (validate.error) {
+                        throw new Error(validate.error.message);
+                    }
+        
+                    const user = await User.create(body);
+                    return user;
+                }
             }
-
-            const user = await User.create(body);
-            return user;
+            throw new Error('Unauthorized')
         } catch (error) {
             throw new Error(error.message);
         }
@@ -97,23 +127,27 @@ const UserService: IUserService = {
      * @returns {Promise < User >}
      * @memberof UserService
      */
-    async remove(id: string): Promise<any> {
+    async remove(id: string, bearerHeader: any): Promise<any> {
         try {
-            const validate: Joi.ValidationResult<{
-                id: string;
-            }> = UserValidation.removeUser({
-                id,
-            });
-
-            if (validate.error) {
-                throw new Error(validate.error.message);
+            const permissions = await roles(bearerHeader);
+            const module = permissions.nameModules.find((i:string)=> i === 'User')
+            if (module) {
+                if (permissions.remove) {
+                    const validate: Joi.ValidationResult<{
+                        id: string;
+                    }> = UserValidation.removeUser({
+                        id,
+                    });
+                    if (validate.error) {
+                        throw new Error(validate.error.message);
+                    }
+                    const user = await db.query('UPDATE user SET isActive=false WHERE id = ?', {
+                        replacements: [id],
+                    });
+                    return user
+                }
             }
-            
-            // const user = await User.update({isActive: false} , {where: {id}})
-            const user = await db.query('UPDATE user SET isActive=false WHERE id = ?', {
-                replacements: [id],
-            });
-            return user
+            throw new Error('Unauthorized')
 
         } catch (error) {
             throw new Error(error.message);

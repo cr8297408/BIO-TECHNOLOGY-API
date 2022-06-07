@@ -23,13 +23,13 @@ interface RequestWithUser extends Request {
  *       scheme: bearer
  *       bearerFormat: JWT
  */
-export function isAuthenticated(req: RequestWithUser, res: Response, next: NextFunction): void {
+export async function isAuthenticated(req: RequestWithUser, res: Response, next: NextFunction): Promise<void> {
     const token: any = req.headers.authorization;
 
     if (token && token.indexOf('Bearer ') !== -1) {
         try {
-            const user: object | string = jwt.verify(token.split('Bearer ')[1], app.get('secret'));
-
+            const user: object | string = await jwt.verify(token.split('Bearer ')[1], app.get('secret'));
+            
             req.user = user;
 
             return next();

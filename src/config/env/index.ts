@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-
 dotenv.config();
 
 interface IConfig {
@@ -11,7 +10,8 @@ interface IConfig {
         DB_HOST?: string;
         DB_DIALECT?: string;
     };
-    secret: string;
+    JWT_SECRET: string;
+    JWT_ALGORITHMS: any;
 }
 
 const NODE_ENV: string = process.env.NODE_ENV || 'development';
@@ -25,7 +25,8 @@ const development: IConfig = {
         DB_HOST: process.env.DB_HOST,
         DB_DIALECT: process.env.DB_DIALECT,
     },
-    secret: process.env.SECRET || 'secret',
+    JWT_SECRET: process.env.SECRET || 'secret',
+    JWT_ALGORITHMS: process.env.JWT_ALGORITHMS,
 };
 
 const config: {

@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as Middleware from '@/config/middleware/middleware';
 import * as Routes from '@/routes';
+// import expressJWT from '../JWT';
 
 /**
  * @constant {express.Application}
@@ -16,6 +17,8 @@ Middleware.configure(app);
  * @constructs express.Application Routes
  */
 Routes.init(app);
+
+// app.use(expressJWT);
 
 /**
  * @constructs express.Application Error Handler

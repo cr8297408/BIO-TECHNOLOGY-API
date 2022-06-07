@@ -59,32 +59,32 @@ export interface IUserService {
      * @returns {Promise<User[]>}
      * @memberof IUserService
      */
-    findAll(): Promise<User[]>;
+    findAll(bearerHeader: any): Promise<User[]>;
 
     /**
      * @returns {Promise<User[]>}
      * @memberof IUserService
      */
-    findPagination(size: number, page: number): Promise<User[]>;
+    findPagination(size: number, page: number, bearerHeader: any): Promise<User[]>;
 
     /**
      * @param {string} code
      * @returns {Promise<User>}
      * @memberof IUserService
      */
-    findOne(code: string): Promise<User>;
+    findOne(code: string, bearerHeader: any): Promise<User>;
 
     /**
      * @param {User} User
      * @returns {Promise<User>}
      * @memberof IUserService
      */
-    insert(IUserModel: User): Promise<User>;
+    insert(IUserModel: User, bearerHeader: any): Promise<User>;
 
     /**
      * @param {string} id
      * @returns {Promise<User>}
      * @memberof IUserService
      */
-    remove(id: string): Promise<User>;
+    remove(id: string, bearerHeader: any): Promise<User>;
 }
